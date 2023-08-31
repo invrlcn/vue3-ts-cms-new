@@ -1,39 +1,40 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import type { ElForm, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import type { ElForm } from 'element-plus'
 import type { IAccount } from '@/types'
+import formRules from '../validate/'
+import useLoginStore from '@/store/login/login'
 
 const formData: IAccount = reactive({
   name: '',
   password: ''
 })
 
-const formRef = ref()
+const formRef = ref<InstanceType<typeof ElForm>>()
+const loginStore = useLoginStore()
 
-const formRules: FormRules = {
-  name: [
-    { required: true, message: '账号为必填项!', trigger: 'blur' },
-    {
-      pattern: /^[a-zA-Z0-9]{6,20}$/,
-      message: '必须是6~20数字或字母组成!',
-      trigger: 'blur'
+const submitFormData = () => {
+  formRef.value?.validate((valid) => {
+    if (valid) {
+      const name = formData.name
+      const password = formData.password
+
+      // 调用action函数发生网络请求
+      loginStore.loginAccountAction({ name, password })
+    } else {
+      ElMessage.error('请您输入正确的格式后再操作!')
     }
-  ],
-  password: [
-    { required: true, message: '密码为必填项!', trigger: 'blur' },
-    {
-      pattern: /^[a-zA-Z0-9]{3,}$/,
-      message: '必须是3位以上的数字或字母组成!',
-      trigger: 'blur'
-    }
-  ]
+  })
 }
+
+defineExpose({ submitFormData })
 </script>
 
 <template>
   <div class="account-panel">
     <el-form
-      :ref="formRef"
+      ref="formRef"
       :model="formData"
       :rules="formRules"
       label-width="60px"

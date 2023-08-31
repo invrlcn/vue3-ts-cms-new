@@ -1,7 +1,7 @@
 import cnRequest from '../'
-import type { loginType } from '@/types'
+import type { IAccount } from '@/types'
 
-export function loginAccountRequest(account: loginType) {
+export function loginAccountRequest(account: IAccount) {
   return cnRequest.post({
     url: '/login',
     data: account

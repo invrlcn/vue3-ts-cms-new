@@ -8,7 +8,11 @@ const isRemPwd = ref(false)
 const accountRef = ref<InstanceType<typeof AccountPanel>>()
 
 const handleLoginBtnClick = () => {
-  console.log(accountRef.value)
+  if (activeName.value === 'account') {
+    accountRef.value?.submitFormData()
+  } else {
+    console.log('手机号登录')
+  }
 }
 </script>
 
