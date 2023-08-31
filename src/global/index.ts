@@ -1,3 +1,4 @@
 import registryIcons from './registry-icons'
+import { TOKEN_NAME } from './constants'
 
-export { registryIcons }
+export { registryIcons, TOKEN_NAME }

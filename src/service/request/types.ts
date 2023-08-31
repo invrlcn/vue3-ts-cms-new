@@ -10,5 +10,5 @@ export interface CNInterceptors<T = AxiosResponse> {
 }
 
 export interface CNRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
-  interceptor?: CNInterceptors<T>
+  interceptors?: CNInterceptors<T>
 }

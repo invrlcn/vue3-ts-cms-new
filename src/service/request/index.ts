@@ -38,20 +38,20 @@ class CNRequest {
 
     // 针对特定的CNRequest实例添加拦截器
     this.instance.interceptors.request.use(
-      config.interceptor?.requestSuccessFn,
-      config.interceptor?.requestFailureFn
+      config.interceptors?.requestSuccessFn,
+      config.interceptors?.requestFailureFn
     )
     this.instance.interceptors.response.use(
-      config.interceptor?.responseSuccessFn,
-      config.interceptor?.responseFailureFn
+      config.interceptors?.responseSuccessFn,
+      config.interceptors?.responseFailureFn
     )
   }
 
   // 封装网络请求的方法
   request<T = any>(config: CNRequestConfig<T>) {
     // 单次请求的成功拦截处理
-    if (config.interceptor?.requestSuccessFn) {
-      config = config.interceptor.requestSuccessFn(config)
+    if (config.interceptors?.requestSuccessFn) {
+      config = config.interceptors.requestSuccessFn(config)
     }
     // 返回Promise
     return new Promise<T>((resolve, reject) => {
@@ -59,8 +59,8 @@ class CNRequest {
         .request<any, T>(config)
         .then((res) => {
           // 单次响应的成功拦截处理
-          if (config.interceptor?.responseSuccessFn) {
-            res = config.interceptor.responseSuccessFn(res)
+          if (config.interceptors?.responseSuccessFn) {
+            res = config.interceptors.responseSuccessFn(res)
           }
           resolve(res)
         })

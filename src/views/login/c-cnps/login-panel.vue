@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import AccountPanel from './AccountPanel.vue'
-import PhonePanel from './PhonePanel .vue'
+import { ref, watch } from 'vue'
+import AccountPanel from './account-panel.vue'
+import PhonePanel from './phone-panel .vue'
+import { localCache } from '@/utils'
 
+const REMEMBER_PASSWORD = 'rememberPwd'
 const activeName = ref('account')
-const isRemPwd = ref(false)
+const isRemPwd = ref<boolean>(localCache.getCache(REMEMBER_PASSWORD) ?? false)
 const accountRef = ref<InstanceType<typeof AccountPanel>>()
+
+watch(isRemPwd, (newValue) => {
+  if (newValue) {
+    localCache.setCache(REMEMBER_PASSWORD, newValue)
+  } else {
+    localCache.removeCache(REMEMBER_PASSWORD)
+  }
+})
 
 const handleLoginBtnClick = () => {
   if (activeName.value === 'account') {
-    accountRef.value?.submitFormData()
+    accountRef.value?.submitFormData(isRemPwd.value)
   } else {
     console.log('手机号登录')
   }
@@ -47,7 +57,7 @@ const handleLoginBtnClick = () => {
         </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="controls">
+    <div class="controls" v-show="activeName === 'account'">
       <el-checkbox v-model="isRemPwd" label="记住密码" size="large" />
       <el-link type="primary">忘记密码</el-link>
     </div>
@@ -87,7 +97,7 @@ const handleLoginBtnClick = () => {
   }
 
   .login-btn {
-    margin-top: 10px;
+    margin-top: 20px;
     width: 100%;
   }
 }
