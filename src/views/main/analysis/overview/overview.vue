@@ -1,13 +1,12 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="overview">
     <h2>overview</h2>
   </div>
 </template>
 
-<style scoped lang="less">
+<script setup lang="ts" name="overview"></script>
+
+<style scoped>
 .overview {
-  color: red;
 }
 </style>

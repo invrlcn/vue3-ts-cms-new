@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import useLoginStore from '@/store/login/login'
 import { useRouter } from 'vue-router'
+import useLoginStore from '@/store/login/login'
 
 const router = useRouter()
+defineProps({
+  isCollapse: {
+    type: Boolean,
+    default: false
+  }
+})
 
 // 获取菜单
 const store = useLoginStore()
-const roleMenuData = store.roleData
+const roleMenuData = store.userMenu
 
 const subItemHandle = (url: string) => {
   router.push(url)
@@ -14,14 +20,16 @@ const subItemHandle = (url: string) => {
 </script>
 
 <template>
-  <div class="main-menus">
+  <div class="main-menus" >
     <div class="logo">
       <img class="img" src="@/assets/img/logo.svg" alt="" />
-      <h2 class="title">管理系统</h2>
+      <h2 class="title" :style="{ display: isCollapse ? 'none' : 'block' }">
+        管理系统
+      </h2>
     </div>
     <el-menu
       index="1"
-      :collapse="false"
+      :collapse="isCollapse"
       default-active="2"
       text-color="#b7bdc3"
       active-text-color="#fff"
@@ -30,7 +38,9 @@ const subItemHandle = (url: string) => {
       <template v-for="item in roleMenuData">
         <el-sub-menu :index="item.id + ''">
           <template #title>
-            <el-icon><component :is="item.icon.split('-icon-')[1]" /></el-icon>
+            <el-icon>
+              <component :is="item.icon.split('-icon-')[1]" />
+            </el-icon>
             <span class="title">{{ item.name }}</span>
           </template>
           <template v-for="subItem in item.children">
