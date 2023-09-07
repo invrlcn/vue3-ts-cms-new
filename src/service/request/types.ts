@@ -1,4 +1,7 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios'
 
 // 针对AxiosRequestConfig配置进行扩展
 

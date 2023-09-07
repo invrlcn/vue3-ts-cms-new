@@ -1,5 +1,9 @@
 import axios from 'axios'
-import type { AxiosInstance } from 'axios'
+import type {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders
+} from 'axios'
 import type { CNRequestConfig } from './types'
 
 /**
@@ -12,6 +16,9 @@ import type { CNRequestConfig } from './types'
  *  2.响应结果的类型处理(泛型)
  */
 
+// interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
+//   headers: AxiosRequestHeaders
+// }
 class CNRequest {
   instance: AxiosInstance
 
